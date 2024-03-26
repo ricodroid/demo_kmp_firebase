@@ -37,6 +37,12 @@ kotlin {
             export("dev.icerock.moko:mvvm-core:0.16.1")
             export("dev.icerock.moko:mvvm-flow:0.16.1")
             export("dev.icerock.moko:graphics:0.9.0")
+
+            // 「ld: unknown options: -ios_simulator_version_min -sdk_version」というエラーによりiosのbuildが通らないの対策
+            // Kotlin 1.9.10で修正されるバグに対処するための修正
+            if (System.getenv("XCODE_VERSION_MAJOR") == "1500") {
+                linkerOpts += "-ld64"
+            }
         }
         pod("FirebaseAnalyticsSwift")
         pod("FirebaseInAppMessagingSwift", "> 10.12-beta")
